@@ -13,9 +13,10 @@ def select_options(conn, skt):
     show_options()
     user_option = input("[+] Select options : ")
     conn.send_data(skt, user_option)
+
     if user_option == "1":
         print("[+] Running Command")
-        run_command()
+        run_command(socket)
     elif user_option == "2":
         print("[+] Downloading File")
     elif user_option == "99" | user_option == "exit" | user_option == "quit":

