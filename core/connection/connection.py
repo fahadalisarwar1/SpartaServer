@@ -1,7 +1,12 @@
 import socket
 import pickle
+import os
 
 HEADERSIZE = 10
+
+CHUNK_SIZE = 4 * 1024
+
+END_DELIMETER = "*END_OF_FILE*"
 
 class ServerConnection:
     def __init__(self):
@@ -55,6 +60,24 @@ class ServerConnection:
                 full_recvd = False
 
         return self.cmd_dict
+
+    def send_files(self, filename):
+        print("[+] Sending File : ", filename)
+
+        self.send_data(filename)
+
+        if os.path.exists(filename):
+            print("[+] File exists!")
+            with open(filename, "rb") as file:
+                chunk = file.read(CHUNK_SIZE)
+                while len(chunk) > 0:
+                    self.connection.send(chunk)
+                    chunk = file.read(CHUNK_SIZE)
+                self.connection.send(END_DELIMETER.encode())
+
+        else:
+            self.connection.send("NOT_FOUND".encode())
+            print("[-] File doesn't exist!")
 
 
     def Close(self):
