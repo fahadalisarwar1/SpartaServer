@@ -20,6 +20,7 @@ def run_command_advanced(my_socket):
     print("[+] Enter Command ")
     while keep_running:
         command = input(">> ")
+
         my_socket.send_data(command)
         if command == "stop" or command == "exit":
             keep_running = False
