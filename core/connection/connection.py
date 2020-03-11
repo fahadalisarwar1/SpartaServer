@@ -70,6 +70,7 @@ class ServerConnection:
             print("[+] File exists!")
             with open(filename, "rb") as file:
                 chunk = file.read(CHUNK_SIZE)
+
                 while len(chunk) > 0:
                     self.connection.send(chunk)
                     chunk = file.read(CHUNK_SIZE)
