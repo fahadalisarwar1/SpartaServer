@@ -90,7 +90,6 @@ class ServerConnection:
 
         print("[+] File Downloaded successfully")
 
-
     def receive_command_result(self):
         print("[+] Receiving Command result")
         full_result = b''
@@ -103,6 +102,19 @@ class ServerConnection:
             full_result += chunk
 
         print(full_result.decode())
+
+    def change_dir(self):
+        pwd = self.receive_data()
+        while True:
+            print(f'{pwd}>> ', end=" ")
+            command = input("")
+            self.send_data(command)
+            if command == "exit" or command == "quit" or command == "stop":
+                break
+            pwd = self.receive_data()
+
+
+
 
     def Close(self):
         self.socket.close()

