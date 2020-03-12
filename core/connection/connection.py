@@ -8,6 +8,8 @@ CHUNK_SIZE = 4 * 1024
 
 END_DELIMETER = "*END_OF_FILE*"
 
+COMMAND_END = "<END_OF_COMMAND>"
+
 class ServerConnection:
     def __init__(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,33 +36,6 @@ class ServerConnection:
         self.data = self.data_in_bytes.decode('utf-8')
         return self.data
 
-    def send_data_bytes(self, data):
-        print("[+] Sending data as bytes")
-        self.connection.send(data)
-
-    def receive_serilized(self):
-        print("[+] Receiving serialized data")
-        full_msg = b''
-        new_msg = True
-        full_recvd = True
-        while full_recvd:
-            msg = self.connection.recv(1024)
-            if new_msg:
-                msglen = int(msg[:HEADERSIZE])
-                new_msg = False
-
-
-            full_msg += msg
-
-            if len(full_msg) - HEADERSIZE == msglen:
-
-                self.cmd_dict = (pickle.loads(full_msg[HEADERSIZE:]))
-                new_msg = True
-                full_msg = b""
-                full_recvd = False
-
-        return self.cmd_dict
-
     def send_files(self, filename):
         print("[+] Sending File : ", filename)
 
@@ -80,6 +55,21 @@ class ServerConnection:
             self.connection.send("NOT_FOUND".encode())
             print("[-] File doesn't exist!")
 
+    def receive_file(self):
+        print("[+] Receiving File")
+
+    def receive_command_result(self):
+        print("[+] Receiving Command result")
+        full_result = b''
+        while True:
+            chunk = self.connection.recv(CHUNK_SIZE)
+            if chunk.endswith(COMMAND_END.encode()):
+                chunk += chunk[:-len(COMMAND_END)]
+                full_result += chunk
+                break
+            full_result += chunk
+
+        print(full_result.decode())
 
     def Close(self):
         self.socket.close()
